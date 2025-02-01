@@ -1,0 +1,78 @@
+\documentclass[10pt]{article}
+\usepackage{amsmath, amssymb}
+\usepackage{amsthm}
+
+\begin{document}
+
+\begin{center}
+    \LARGE {Problem Set 1 – Supervised Learning} \\[1em]
+    \Large{DS542 – DL4DS} \\[0.5em]
+    \large Spring, 2025
+
+    \large Youran Geng
+\end{center}
+
+\vspace{2em}
+
+\noindent\textbf{Note:} Refer to the equations in the \textit{Understanding Deep Learning} textbook to solve the following problems.
+
+\vspace{2em}
+
+\section*{Problem 2.1}
+
+To walk “downhill” on the loss function (equation 2.5), we measure its gradient with respect to the parameters $\phi_0$ and $\phi_1$. Calculate expressions for the slopes $\frac{\partial L}{\partial \phi_0}$ and $\frac{\partial L}{\partial \phi_1}$.
+
+\begin{proof}[Solution]
+    Let \(L_i = (\phi_0 + \phi_1 x_i - y_i)^2\), then \(L = \sum_{i=1}^I{L_i}\). We have
+    \begin{align*}
+        \frac{\partial L_i}{\partial \phi_0} &= 2 \phi_0 + 2(\phi_1 x_i - y_i), \\
+        \frac{\partial L_i}{\partial \phi_1} &= 2x_i^2 \phi_1 + 2 x_i(\phi_0 - y_i). 
+    \end{align*}
+    By the additive property of derivatives, we know
+    \begin{align*}
+        \frac{\partial L}{\partial \phi_0} &= \sum_{i=1}^I{\frac{\partial L_i}{\partial \phi_0}} = 2 I\phi_0 + 2 \sum_{i=1}^I{(\phi_1 x_i - y_i)}, \\
+        \frac{\partial L}{\partial \phi_1} &= \sum_{i=1}^I{\frac{\partial L_i}{\partial \phi_1}} = 2\phi_1 \sum_{i=1}^I{x_i^2} + 2\sum_{i=1}^I{x_i(\phi_0 - y_i)}. 
+    \end{align*}
+\end{proof}
+
+% \vspace{10em}
+\newpage
+
+\section*{Problem 2.2}
+
+Show that we can find the minimum of the loss function in closed-form by setting the expression for the derivatives from Problem 2.1 to zero and solving for $\phi_0$ and $\phi_1$.
+
+\begin{proof}[Solution]
+    Setting the above two derivative to zero yields
+    \begin{align*}
+        \phi_0 I + \phi_1 \sum_{i=1}^I{x_i} - \sum_{i=1}^I{y_i} &= 0, \\
+        \phi_0 \sum_{i=1}^I{x_i} + \phi_1 \sum_{i=1}^I{x_i^2} - \sum_{i=1}^I{x_iy_i} &= 0. 
+    \end{align*}
+    In matrix form, 
+    \begin{equation*}
+        \begin{bmatrix}
+            I & \sum{x_i} \\
+            \sum{x_i} & \sum{x_i^2}
+        \end{bmatrix}
+        \begin{bmatrix}
+            \phi_0 \\
+            \phi_1
+        \end{bmatrix} = 
+        \begin{bmatrix}
+            \sum{y_i}  \\
+            \sum{x_i y_i}
+        \end{bmatrix}
+    \end{equation*}
+    or \(X^\top X \phi - X^\top y = 0\), where the sums above are all from \(i=1\) to \(I\), and \(X\) is given by
+    \begin{equation*}
+        X = \begin{bmatrix}
+            1 & x_1 \\
+            1 & x_2 \\
+            \vdots \\
+            1 & x_I
+        \end{bmatrix}. 
+    \end{equation*}
+    Since \(X^\top X\) is positive semidefinite, it is invertible, and we can solve for \(\phi\) by \(\phi = (X^\top X)^{-1} X^\top y\). 
+\end{proof}
+
+\end{document}
