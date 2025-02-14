@@ -72,7 +72,18 @@ Show that we can find the minimum of the loss function in closed-form by setting
             1 & x_I
         \end{bmatrix}. 
     \end{equation*}
-    Since \(X^\top X\) is positive semidefinite, it is invertible, and we can solve for \(\phi\) by \(\phi = (X^\top X)^{-1} X^\top y\). 
+    Since \(X^\top X\) is positive semidefinite, it is invertible, and we can solve for \(\phi\) by 
+    \begin{equation*}
+        \phi = (X^\top X)^{-1} X^\top y = \frac{1}{\left( \sum\limits_{i=1}^I{x_i} \right)^2 - \sum\limits_{i=1}^I{x_i^2}} \begin{bmatrix}
+            \left( \sum\limits_{i=1}^I{x_i} \right) \left(\sum\limits_{i=1}^I{x_i y_i} \right) - \left( \sum\limits_{i=1}^I{x_i^2} \right) \left( \sum\limits_{i=1}^I{y_i} \right) \\
+            \left( \sum\limits_{i=1}^I{x_i} \right) \left( \sum\limits_{i=1}^I{y_i} \right) - I \cdot \sum\limits_{i=1}^I{x_i y_i}
+        \end{bmatrix}. 
+    \end{equation*}
+    Therefore, 
+    \begin{align*}
+        \phi_0 &= \frac{\left( \sum\limits_{i=1}^I{x_i} \right) \left(\sum\limits_{i=1}^I{x_i y_i} \right) - \left( \sum\limits_{i=1}^I{x_i^2} \right) \left( \sum\limits_{i=1}^I{y_i} \right)}{\left( \sum\limits_{i=1}^I{x_i} \right)^2 - \sum\limits_{i=1}^I{x_i^2}}, \\
+        \phi_1 &= \frac{\left( \sum\limits_{i=1}^I{x_i} \right) \left( \sum\limits_{i=1}^I{y_i} \right) - I \cdot \sum\limits_{i=1}^I{x_i y_i}}{\left( \sum\limits_{i=1}^I{x_i} \right)^2 - \sum\limits_{i=1}^I{x_i^2}}. 
+    \end{align*}
 \end{proof}
 
 \end{document}
