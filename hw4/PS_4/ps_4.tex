@@ -1,0 +1,74 @@
+\documentclass[10pt]{article}
+\usepackage{amsmath, amssymb}
+\usepackage{amsthm}
+
+\begin{document}
+
+\begin{center}
+    \LARGE {Problem Set 4 - Gradients and Backpropagation} \\[1em]
+    \Large{DS542 - DL4DS} \\[0.5em]
+    \large Spring, 2025
+\end{center}
+
+\vspace{2em}
+
+\noindent\textbf{Note:} Refer to Chapter 7 in \textit{Understanding Deep Learning}.
+
+\vspace{2em}
+
+\section*{Problem 4.1 (3 points)}
+
+Consider the case where we use the logistic sigmoid function as an activation function, defined as:
+
+\begin{equation}
+h = \sigma(z) = \frac{1}{1 + e^{-z}}.
+\end{equation}
+
+\noindent Compute the derivative \( \frac{\partial h}{\partial z} \). What happens
+to the derivative when the input takes (i) a large positive value and (ii) a large negative value?
+
+\begin{proof}[Solution]
+    By chain rule, 
+    \begin{align*}
+        \frac{\partial h}{\partial z} &= -(1+e^{-z})^{-2} \cdot \frac{\partial}{\partial z}(1+e^{-z}) \\
+        &= \frac{e^{-z}}{(1+e^{-z})^2} = \frac{1}{e^z + e^{-z} + 2}. 
+    \end{align*}
+    When the input \(z\) takes a large positive value, \(e^z \to \infty\) and \(e^{-z} \to 0\), and thus \(\frac{\partial h}{\partial z}\) gets close to \(0\). 
+
+    In contrast, when \(z\) takes a large negative value, \(e^{-z}\) is large and \(e^z\) is close to \(0\). The derivative also gets close to \(0\). 
+\end{proof}
+
+\vspace{5em}
+
+\section*{Problem 4.2 (3 points)}
+
+Calculate the derivative \( \frac{\partial \ell_i}{\partial f[x_i, \phi]} \) for the binary 
+classification loss function:
+
+\begin{equation}
+\ell_i = -(1 - y_i) \log [1 - \sigma(f[x_i, \phi])] - y_i \log [\sigma(f[x_i, \phi])],
+\end{equation}
+
+where the function \( \sigma(\cdot) \) is the logistic sigmoid, defined as:
+
+\begin{equation}
+\sigma(z) = \frac{1}{1 + \exp(-z)}.
+\end{equation}
+
+\begin{proof}[Solution]
+    Let \(z = f[x_i, \phi]\). Note that \(1 - \sigma(z) = \dfrac{e^{-z}}{1+e^{-z}}\), so
+    \begin{equation*}
+        \frac{\partial \sigma}{\partial z} = \frac{e^{-z}}{(1+e^{-z})^2} = \sigma(z) (1-\sigma(z)). 
+    \end{equation*}
+    Thus
+    \begin{align*}
+        \frac{\partial \ell_i}{\partial z} &= -(1-y_i) \frac{1}{1-\sigma(z)}(-1)\frac{\partial \sigma}{\partial z} - y_i \frac{1}{\sigma(z)}\frac{\partial \sigma}{\partial z} \\
+        &= (1-y_i) \sigma(z) - y_i(1-\sigma(z)) \\
+        &= \sigma(z) - y_i \\
+        &= \frac{1}{1+\exp(-f[x_i, \phi])} - y_i. 
+    \end{align*}
+\end{proof}
+
+\vspace{5em}
+
+\end{document}
